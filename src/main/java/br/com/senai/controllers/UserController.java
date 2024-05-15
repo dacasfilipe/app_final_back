@@ -9,17 +9,17 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/user") //localhost:8080/user
 public class UserController {
     @Autowired
     UsersRepository usersRepository;
-
+    //localhost:8080/user/all
     @GetMapping(value = "/all",
             produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Users> getAllUsers(){
         return usersRepository.findAll();
     }
-
+    //localhost:8080/user/createUsers
     @PostMapping(value="/createUsers",
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -28,6 +28,7 @@ public class UserController {
         Users newUsers = new Users();
         //Seta as propriedades do Coffee
         newUsers.setUsername(users.getUsername());
+        newUsers.setEmail(users.getEmail());
         newUsers.setPassword(users.getPassword());
         //Chama o método save para salvar o objeto no banco de dados
         return usersRepository.save(newUsers);
@@ -36,14 +37,16 @@ public class UserController {
     @PutMapping(value="/updateUsers",
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Users updateCoffee(@RequestBody Users users){
+    public Users updateUser(@RequestBody Users users){
         Users getUser = usersRepository
                 .findById(users.getId()).orElseThrow();
         Users updateUsers = new Users();
 
         updateUsers.setId(users.getId());
         updateUsers.setUsername(users.getUsername());
+        updateUsers.setEmail(users.getEmail());
         updateUsers.setPassword(users.getPassword());
+        System.out.println(updateUsers);
 
         return usersRepository.save(updateUsers);
     }
