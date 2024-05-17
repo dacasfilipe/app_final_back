@@ -45,8 +45,9 @@ public class ProductController {
 
         updateProduct.setId(product.getId());
         updateProduct.setName(product.getName());
+        updateProduct.setDescription(product.getDescription());
         updateProduct.setPrice(product.getPrice());
-
+        System.out.println(updateProduct);
         return productRepository.save(updateProduct);
     }
     //Método deletar product
