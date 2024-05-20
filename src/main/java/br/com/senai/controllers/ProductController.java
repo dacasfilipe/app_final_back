@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 @CrossOrigin(origins = "http://localhost:5173")
 @RestController
@@ -60,5 +61,21 @@ public class ProductController {
         //chamamos o método .delete e passamos o café a ser deletado
         productRepository.delete(getProduct);
         return getProduct;
+    }
+    // método filtrar produtos de manutenção de produtos
+    @GetMapping(value = "/filtro/{palavra}",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Product> filtrarLista(@PathVariable String palavra) {
+        // Search for products using the provided 'palavra'
+        List<Product> filteredProducts = productRepository.findByNameContainingIgnoreCase(palavra);
+
+        // Check if any products were found
+        if (filteredProducts.isEmpty()) {
+            // No products found, return an empty list
+            return Collections.emptyList();
+        }
+
+        // Products found, return the filtered list
+        return filteredProducts;
     }
 }
